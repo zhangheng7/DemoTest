@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal">
+
+        <AbsoluteLayout
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/add_records_1_map">
+
+            <TextView
+                android:id="@+id/markerTitle"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_x="10dp"
+                android:layout_y="12dp"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/discount"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_x="202dp"
+                android:layout_y="16dp"
+                android:textColor="#ffb81e"
+                android:textSize="8dp" />
+
+            <ImageView
+                android:id="@+id/markerBiaoqian"
+                android:layout_width="47dp"
+                android:layout_height="45dp"
+                android:layout_gravity="right"
+                android:layout_x="200dp"
+                android:src="@drawable/biaoqian" />
+
+            <TextView
+                android:id="@+id/markerAddress"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_x="10dp"
+                android:layout_y="40dp"
+                android:clickable="true"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:id="@+id/markerdiwei"
+                android:layout_width="20dp"
+                android:layout_height="48dp"
+                android:layout_gravity="right"
+                android:layout_x="250dp"
+                android:layout_y="12dp"
+                android:src="@drawable/ic_action_next_item" />
+
+            <ImageView
+                android:id="@+id/tobaidumap"
+                android:layout_width="62dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right"
+                android:layout_x="195dp"
+                android:layout_y="5dp"
+                android:src="@drawable/tobaidumapicon"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/juli"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_x="200dp"
+                android:layout_y="40dp"
+                android:clickable="true"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+        </AbsoluteLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

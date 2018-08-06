@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:id="@+id/fingerprint_dialog_two"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:background="@drawable/fingerdialog"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_touchid" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/global_text_color"
+                android:textStyle="bold"
+                android:text="发现精彩的Touch ID" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/global_text_color"
+                android:textSize="12dp"
+                android:text="通过Home键验证已有指纹" />
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <Button
+                android:id="@+id/left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textColor="@color/open_blue"
+                android:textSize="@dimen/global_btn_text_size"
+                android:text="取消" />
+
+            <include
+                android:id="@+id/finger_dialog_line"
+                layout="@layout/view_divider_vertical"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textColor="@color/btn_red_bg_color"
+                android:textSize="@dimen/global_btn_text_size"
+                android:visibility="gone"
+                android:text="输入密码登录" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</FrameLayout>
