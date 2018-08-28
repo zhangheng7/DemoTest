@@ -53,6 +53,7 @@
                 <action android:name="com.baidu.location.service_v5.1"></action>
             </intent-filter>
         </service>
+        <service android:name=".service.CodeTimerService" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -72,6 +73,7 @@
         <activity android:name=".activity.SelectPhotoActivity" />
         <activity android:name=".activity.RecycleViewActivity" />
         <activity android:name=".activity.AnnotationsActivity"/>
+        <service android:name=".service.CodeTimerService"/>
     </application>
 
 </manifest>
