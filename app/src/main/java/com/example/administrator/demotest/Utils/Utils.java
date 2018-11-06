@@ -960,5 +960,22 @@ public class Utils {
         return false;
     }
 
+//    private void initScreen() {
+//        WindowManager windowManager = null;
+//        if (windowManager == null) {
+//            return;
+//        }
+//
+//        DisplayMetrics dm = new DisplayMetrics();
+//        windowManager.getDefaultDisplay().getMetrics(dm);
+//        screenWidth = dm.widthPixels;
+//        screenHeight = dm.heightPixels;
+//
+//        scaleX = (float) ((float) screenWidth / 320.0);
+//        scaleY = (float) ((float) screenHeight / 480.0);
+//
+//        setScaledParams(screenWidth, dm.scaledDensity);
+//        windowManager.getDefaultDisplay().getRealSize(screenSize);
+//    }
 }
 
