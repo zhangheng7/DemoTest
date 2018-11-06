@@ -42,6 +42,7 @@ public class ViewPagerScroller extends Scroller {
     }
 
     public void initViewPagerScroll(ViewPager viewPager) {
+        //利用反射拿到mScroller的对象
         try {
             Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);

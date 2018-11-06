@@ -129,8 +129,6 @@ public class CustomBanner extends FrameLayout {
                         listDoc.get(i).setBackgroundResource(R.drawable.banner_circle_sel);
                     }
                 }
-
-
             }
 
             @Override
@@ -138,40 +136,30 @@ public class CustomBanner extends FrameLayout {
 
             }
         });
-
-
     }
 
     /**
      * 初始化小圆点
      */
     private void initDoc() {
-
         //创建一个集合,记录这些小圆点
         listDoc = new ArrayList<>();
         //清空布局
         linearBannner.removeAllViews();
 
         for (int i = 0; i < list.size(); i++) {
-
             ImageView docImage = new ImageView(getContext());
             if (i == 0) {
                 docImage.setBackgroundResource(R.drawable.banner_circle_def);
             } else {
                 docImage.setBackgroundResource(R.drawable.banner_circle_sel);
             }
-
             //添加到集合
             listDoc.add(docImage);
-
             //添加到线性布局
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
             params.setMargins(5, 0, 5, 0);
-
             linearBannner.addView(docImage, params);
-
-
         }
 
 
@@ -320,15 +308,13 @@ public class CustomBanner extends FrameLayout {
 
             //添加到容器
             container.addView(imageView);
-
             //返回
-
             return imageView;
         }
 
+        //销毁条目时
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-
             container.removeView((View) object);
         }
     }
