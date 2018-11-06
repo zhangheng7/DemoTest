@@ -32,7 +32,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/global_text_color"
                 android:textStyle="bold"
-                android:text="发现精彩的Touch ID" />
+                android:text="DemoTest的Touch ID" />
 
             <TextView
                 android:id="@+id/message"

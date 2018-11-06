@@ -1,6 +1,7 @@
 package com.example.administrator.demotest.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Notification;
@@ -9,11 +10,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -39,12 +43,13 @@ import com.example.administrator.demotest.view.ConfirmDialog;
 import com.example.administrator.demotest.view.FingerPrinterDialog;
 import com.example.administrator.demotest.view.OnButtonDialog;
 import com.example.administrator.demotest.view.UPMarqueeView;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import networklistner.NetWorkChangReceiver;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "MainActivity";
@@ -57,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mBtnClickToToSetting;
     private Button mBtnClickToRefresh;
     private Button mClickToNotifation;
-    private Button mClickToWebView;
+    private Button mClickToMapView;
+    private Button mClickToBanner;
     private GoogleApiClient client;
     private ToastUtil toastUtil;
     private Button mClickToAlbum;
@@ -66,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mClickFinger;
     private Button mClickAnnnotations;
     private FingerPrinterDialog fingerPrinterDialog;
+    //监听网络变化
+    private boolean isRegistered = false;
+    private NetWorkChangReceiver netWorkChangReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +92,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initData();
         initView();
         initClick();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        initBroadCast();
+    }
+
+    private void initBroadCast() {
+        //注册网络状态监听广播
+        netWorkChangReceiver = new NetWorkChangReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkChangReceiver, filter);
+        isRegistered = true;
     }
 
     private void initClick() {
@@ -103,20 +121,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnClickToToSetting = findViewById(R.id.click_to_toSetting);
         mBtnClickToRefresh = findViewById(R.id.click_to_refresh);
         mClickToNotifation = findViewById(R.id.click_to_notifation);
-        mClickToWebView = findViewById(R.id.click_to_web);
+        mClickToMapView = findViewById(R.id.click_to_map);
         mClickToAlbum = findViewById(R.id.click_to_xiangce);
         mClickToAlert = findViewById(R.id.click_to_alert);
         mClickFinger = findViewById(R.id.click_finger);
         mClickAnnnotations = findViewById(R.id.click_annotations);
+        mClickToBanner = findViewById(R.id.click_to_banner);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
         mClickToNotifation.setOnClickListener(this);
-        mClickToWebView.setOnClickListener(this);
+        mClickToMapView.setOnClickListener(this);
         mClickToAlbum.setOnClickListener(this);
         mClickToAlert.setOnClickListener(this);
         mClickFinger.setOnClickListener(this);
         mClickAnnnotations.setOnClickListener(this);
+        mClickToBanner.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -139,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        .showCamera(true)
 //                        .start(this, 88);
                 break;
-            case R.id.click_to_web:
+            case R.id.click_to_map:
                 if (checkPermession()) {
                     startActivity(new Intent(MainActivity.this, MapActivity.class));
                 }
@@ -243,6 +263,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.click_annotations:
                 startActivity(new Intent(this, AnnotationsActivity.class));
                 break;
+            case R.id.click_to_banner:
+                startActivity(new Intent(this, BannerActivity.class));
+                break;
             default:
                 break;
         }
@@ -320,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         notificationManager.notify(notificationId, notification);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void translucentStatusBar(Activity activity, boolean hideStatusBarBackground) {
         Window window = activity.getWindow();
         //添加Flag把状态栏设为可绘制模式
@@ -347,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static void setStatusBarColor(Activity activity, int statusColor) {
         Window window = activity.getWindow();
         //取消状态栏透明
@@ -373,6 +396,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
             dialog = null;
+        }
+        //解绑监听网络
+        if (isRegistered) {
+            unregisterReceiver(netWorkChangReceiver);
         }
     }
 
@@ -443,4 +470,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //           dialog.show();
 //        }
 //    }
+
 }

@@ -70,12 +70,12 @@
                 android:textColor="@color/white" />
 
             <Button
-                android:id="@+id/click_to_web"
+                android:id="@+id/click_to_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_blue"
-                android:text="点击跳转到“WEB”的页面"
+                android:text="点击跳转到“Banner”的页面"
                 android:textColor="@color/white" />
 
             <Button
@@ -112,6 +112,15 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_blue"
                 android:text="点击“变颜色的字”"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“跳转Banner图”"
                 android:textColor="@color/white" />
 
         </LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gf_keyboard_title_background"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/password_keyboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:id="@+id/func_keyboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/gf_delete_btn"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:src="@drawable/delete"
+                android:scaleType="centerInside"
+                android:gravity="right"
+                android:background="@drawable/gf_num_del_style_new"/>
+            <TextView
+                android:id="@+id/gf_ok_btn"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:background="@color/btn_red_bg_color"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
