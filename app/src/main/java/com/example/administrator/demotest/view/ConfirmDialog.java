@@ -22,7 +22,7 @@ import com.example.administrator.demotest.Utils.DensityUtil;
  * @date 2018/7/5
  */
 
-public class ConfirmDialog extends Dialog {
+public class ConfirmDialog extends BaseDialog {
 
     private static ConfirmDialog mConfirmDialog;
 

@@ -8,19 +8,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.administrator.demotest.R;
-import com.example.administrator.demotest.adapter.RecycleAdapter;
 import com.example.administrator.demotest.service.CodeTimerService;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +27,7 @@ import java.util.List;
 public class RecycleViewActivity extends AppCompatActivity {
     private List<Integer> list = new ArrayList<Integer>();
     private TextView text;
+    private LottieAnimationView lottie;
     //    private RecyclerView recyclerView;
 
     @Override
@@ -55,6 +50,10 @@ public class RecycleViewActivity extends AppCompatActivity {
 //        recyclerView.setAdapter(new RecycleAdapter(list, this));
 
         text = findViewById(R.id.text);
+        lottie = findViewById(R.id.lottie);
+//        lottie.setAnimation("test.json");
+//        lottie.loop(true);
+//        lottie.playAnimation();
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
