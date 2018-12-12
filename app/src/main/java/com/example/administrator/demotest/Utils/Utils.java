@@ -3,10 +3,13 @@ package com.example.administrator.demotest.Utils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,15 +25,18 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -49,6 +55,7 @@ import java.util.regex.Pattern;
 public class Utils {
     private static final String TAG = "Utils";
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public static String getImageAbsolutePath(Activity context, Uri imageUri) {
         if (context == null || imageUri == null) {
             return null;
@@ -111,6 +118,7 @@ public class Utils {
                 .getAuthority());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public static String getDataColumn(Context context, Uri uri,
                                        String selection, String[] selectionArgs) {
         Cursor cursor = null;
@@ -139,6 +147,7 @@ public class Utils {
                 .getAuthority());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     public static int getBitmapDegree(String path) {
         int degree = 0;
         try {
@@ -261,7 +270,7 @@ public class Utils {
                     "hasSmartBar");
             return ((Boolean) method.invoke(null)).booleanValue();
         } catch (Exception e) {
-            Log.d(TAG, "hasSmartBar: "+e);
+            Log.d(TAG, "hasSmartBar: " + e);
         }
         return false;
     }
@@ -299,7 +308,7 @@ public class Utils {
             bStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bStream);
             byte[] bytes = bStream.toByteArray();
-            string = Base64.encode(bytes);
+            string = Base64Self.encode(bytes);
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {
@@ -328,7 +337,7 @@ public class Utils {
                 options -= 10;// 每次都减少10
             }
             byte[] bytes = baos.toByteArray();
-            str = Base64.encode(bytes);
+            str = Base64Self.encode(bytes);
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {
@@ -476,6 +485,7 @@ public class Utils {
         return imgname;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static String getProcessName(Context context) {
         int pid = android.os.Process.myPid();
         ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -646,6 +656,7 @@ public class Utils {
      * @param context
      * @param edit
      */
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static void showSoftInput(Context context, View edit) {
         if (context == null || edit == null) {
             return;
@@ -662,6 +673,7 @@ public class Utils {
      * @param context
      * @param edit
      */
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static void hideSoftInput(Context context, View edit) {
         if (context == null || edit == null) {
             return;
@@ -675,6 +687,7 @@ public class Utils {
     /**
      * 隐藏软键盘
      */
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static void hideSoftInput(Activity activity) {
         if (activity == null) {
             return;
@@ -703,11 +716,13 @@ public class Utils {
     /**
      * 切换软键盘
      */
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static void toggleSoftInput(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
     public static Bitmap base64ToBitmap(String base64Data) {
         Bitmap bitmap = null;
 
@@ -756,6 +771,7 @@ public class Utils {
     /**
      * 检测是否推到后台
      */
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static boolean isAppBackground(Context context) {
         List<ActivityManager.RunningAppProcessInfo> appPro = ((ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE))
@@ -773,6 +789,7 @@ public class Utils {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static void setStatusBarColor(Activity activity, int statusColor) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -796,6 +813,7 @@ public class Utils {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static void translucentStatusBar(Activity activity, boolean hideStatusBarBackground) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -873,6 +891,7 @@ public class Utils {
         return isOpen;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.DONUT)
     public static int getAppIcon(Context context) {
         int resId = context.getApplicationInfo().icon;
         if (resId <= 0) {
@@ -960,22 +979,70 @@ public class Utils {
         return false;
     }
 
-//    private void initScreen() {
-//        WindowManager windowManager = null;
-//        if (windowManager == null) {
-//            return;
-//        }
-//
-//        DisplayMetrics dm = new DisplayMetrics();
-//        windowManager.getDefaultDisplay().getMetrics(dm);
-//        screenWidth = dm.widthPixels;
-//        screenHeight = dm.heightPixels;
-//
-//        scaleX = (float) ((float) screenWidth / 320.0);
-//        scaleY = (float) ((float) screenHeight / 480.0);
-//
-//        setScaledParams(screenWidth, dm.scaledDensity);
-//        windowManager.getDefaultDisplay().getRealSize(screenSize);
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.DONUT)
+    public static boolean openApp(Context context, String packagename) {
+        if (TextUtils.isEmpty(packagename)) {
+            return false;
+        }
+        // 通过包名获取此APP详细信息，包括Activities、services、versioncode、name等等
+        PackageInfo packageinfo = null;
+        try {
+            packageinfo = context.getPackageManager().getPackageInfo(packagename, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        if (packageinfo == null) {
+            return false;
+        }
+
+        // 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
+        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        resolveIntent.setPackage(packageinfo.packageName);
+
+        // 通过getPackageManager()的queryIntentActivities方法遍历
+        List<ResolveInfo> resolveinfoList = context.getPackageManager()
+                .queryIntentActivities(resolveIntent, 0);
+
+        ResolveInfo resolveinfo = resolveinfoList.iterator().next();
+        if (resolveinfo != null) {
+            // packagename = 参数packname
+            String packageName = resolveinfo.activityInfo.packageName;
+            // 这个就是我们要找的该APP的LAUNCHER的Activity[组织形式：packagename.mainActivityname]
+            String className = resolveinfo.activityInfo.name;
+            // LAUNCHER Intent
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // 设置ComponentName参数1:packagename参数2:MainActivity路径
+            ComponentName cn = new ComponentName(packageName, className);
+            intent.setComponent(cn);
+            context.startActivity(intent);
+
+        }
+        return true;
+    }
+
+    private String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        ByteArrayOutputStream bStream = null;
+        try {
+            bStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            bStream.flush();
+            byte[] bytes = bStream.toByteArray();
+            sb.append(Base64.encodeToString(bytes, Base64.NO_WRAP));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Utils.closeQuietly(bStream);
+        }
+        return sb.toString();
+    }
 }
 

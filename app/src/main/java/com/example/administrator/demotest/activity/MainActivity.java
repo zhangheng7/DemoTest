@@ -43,7 +43,6 @@ import com.example.administrator.demotest.view.ConfirmDialog;
 import com.example.administrator.demotest.view.FingerPrinterDialog;
 import com.example.administrator.demotest.view.OnButtonDialog;
 import com.example.administrator.demotest.view.UPMarqueeView;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 
 import java.util.ArrayList;
@@ -64,13 +63,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mClickToNotifation;
     private Button mClickToMapView;
     private Button mClickToBanner;
-    private GoogleApiClient client;
     private ToastUtil toastUtil;
     private Button mClickToAlbum;
     private Button mClickToAlert;
     private Dialog dialog;
     private Button mClickFinger;
     private Button mClickAnnnotations;
+    private Button mClickSelectCity;
     private FingerPrinterDialog fingerPrinterDialog;
     //监听网络变化
     private boolean isRegistered = false;
@@ -127,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickFinger = findViewById(R.id.click_finger);
         mClickAnnnotations = findViewById(R.id.click_annotations);
         mClickToBanner = findViewById(R.id.click_to_banner);
+        mClickSelectCity = findViewById(R.id.click_to_letter);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickFinger.setOnClickListener(this);
         mClickAnnnotations.setOnClickListener(this);
         mClickToBanner.setOnClickListener(this);
+        mClickSelectCity.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -265,6 +266,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.click_to_banner:
                 startActivity(new Intent(this, BannerActivity.class));
+                break;
+            case R.id.click_to_letter:
+                startActivity(new Intent(this, LetterActivity.class));
                 break;
             default:
                 break;

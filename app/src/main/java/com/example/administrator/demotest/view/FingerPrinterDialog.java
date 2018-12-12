@@ -29,7 +29,7 @@ import static android.hardware.fingerprint.FingerprintManager.FINGERPRINT_ERROR_
  * @author zhangheng
  * @date 2018/7/15
  */
-public class FingerPrinterDialog extends Dialog {
+public class FingerPrinterDialog extends BaseDialog {
 
     private String title;
     private String message;

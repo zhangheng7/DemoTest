@@ -22,7 +22,7 @@ import com.example.administrator.demotest.Utils.DensityUtil;
  * @date 2018/7/13
  */
 
-public class OnButtonDialog extends Dialog {
+public class OnButtonDialog extends BaseDialog {
     public OnButtonDialog(@NonNull Context context) {
         super(context);
     }

@@ -5,10 +5,12 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -72,6 +74,14 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
 
     private void initMap() {
         map = findViewById(R.id.map);
+        RelativeLayout web = (RelativeLayout) findViewById(R.id.activity_web);
+//        web.setEnabled(false);
+        web.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         mBtnDw = (Button) findViewById(R.id.dw_bt);
         mBaiduMap = map.getMap();
         //默认显示普通地图
@@ -80,9 +90,9 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         mBaiduMap.setMyLocationEnabled(true);
 
         // 不显示地图上比例尺
-        map.showScaleControl(false);
+//        map.showScaleControl(false);
         // 不显示地图缩放控件（按钮控制栏）
-        map.showZoomControls(false);
+//        map.showZoomControls(false);
 
         // 删除百度地图LoGo
         map.removeViewAt(1);

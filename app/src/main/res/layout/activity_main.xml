@@ -70,12 +70,21 @@
                 android:textColor="@color/white" />
 
             <Button
+                android:id="@+id/click_to_recording"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击跳转到“录制视频”的页面"
+                android:textColor="@color/white" />
+
+            <Button
                 android:id="@+id/click_to_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_blue"
-                android:text="点击跳转到“Banner”的页面"
+                android:text="点击跳转到“地图”的页面"
                 android:textColor="@color/white" />
 
             <Button
@@ -121,6 +130,15 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_blue"
                 android:text="点击“跳转Banner图”"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_letter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“城市首字母页面”"
                 android:textColor="@color/white" />
 
         </LinearLayout>
