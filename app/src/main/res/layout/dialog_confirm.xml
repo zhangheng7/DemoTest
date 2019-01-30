@@ -38,6 +38,7 @@
                 android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:text="qqqqqqqqqqqqqqqqqq"
                 android:textSize="14sp" />
 
             <EditText
@@ -67,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="12312312" />
 
             <include layout="@layout/view_driver_vertical" />
 
@@ -77,6 +79,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:text="12312312"
                 android:textColor="@color/sky_blue" />
 
         </LinearLayout>

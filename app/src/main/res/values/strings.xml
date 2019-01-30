@@ -4,7 +4,7 @@
     <string name="ok">确定</string>
     <string name="try_again">再试一次</string>
     <string name="my_touchId">请通过Home键验证已有指纹</string>
-    <string name="user_gesture">手势密码登录</string>
+    <string name="use_gesture">手势密码登录</string>
     <string name="use_password">账号密码登录</string>
     <string name="please_check_finger">请验证已有指纹</string>
     <string name="fingertimes_out">指纹验证已超限</string>

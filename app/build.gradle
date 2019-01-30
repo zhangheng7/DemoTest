@@ -45,5 +45,6 @@ dependencies {
     //动画
     compile 'com.airbnb.android:lottie:2.0.0'
     implementation files('libs/BaiduLBS_Android.jar')
+    compile 'com.github.yhaolpz:FloatWindow:1.0.9'
 
 }

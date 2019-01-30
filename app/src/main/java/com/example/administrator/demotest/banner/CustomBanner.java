@@ -81,7 +81,7 @@ public class CustomBanner extends FrameLayout {
      */
     private void init() {
         View view = View.inflate(getContext(), R.layout.layout_banner, this);
-        transform = new GlideRoundTransform(getContext(), 4);
+        transform = new GlideRoundTransform(getContext(), 10);
         ButterKnife.bind(this, view);
 
     }
@@ -106,7 +106,7 @@ public class CustomBanner extends FrameLayout {
         bannerViewPager.setCurrentItem(list.size() * 10000);
         bannerViewPager.setOffscreenPageLimit(3);
         ViewPagerScroller pagerScroller = new ViewPagerScroller(getContext(), new AccelerateDecelerateInterpolator());
-        pagerScroller.setScrollDuration(1000);
+        pagerScroller.setScrollDuration(500);
         pagerScroller.initViewPagerScroll(bannerViewPager);
 
         //使用handler自动轮播
@@ -261,12 +261,13 @@ public class CustomBanner extends FrameLayout {
 
             //创建imageView
             ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             //加载这张图片
             Glide.with(context)
                     .load(list.get(position % list.size()))
+                    .dontAnimate()
                     .transform(transform)
-                    .fitCenter()
                     .placeholder(R.drawable.bg_image_loading)
                     .into(imageView);
 

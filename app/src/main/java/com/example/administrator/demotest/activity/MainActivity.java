@@ -26,7 +26,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.demotest.R;
@@ -43,6 +46,10 @@ import com.example.administrator.demotest.view.ConfirmDialog;
 import com.example.administrator.demotest.view.FingerPrinterDialog;
 import com.example.administrator.demotest.view.OnButtonDialog;
 import com.example.administrator.demotest.view.UPMarqueeView;
+import com.yhao.floatwindow.FloatWindow;
+import com.yhao.floatwindow.MoveType;
+import com.yhao.floatwindow.PermissionListener;
+import com.yhao.floatwindow.Screen;
 
 
 import java.util.ArrayList;
@@ -92,7 +99,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initClick();
         initBroadCast();
+//        initFloatWindow();
     }
+
+    private void initFloatWindow() {
+        View view = LayoutInflater.from(this).inflate(R.layout.phone_full, null);
+        FloatWindow
+                .with(getApplicationContext())
+                .setView(view)
+                .setWidth(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setX(RelativeLayout.ALIGN_PARENT_RIGHT)
+                .setY(120)
+                .setMoveType(MoveType.slide)
+                .setPermissionListener(mPermissionListener)
+                .build();
+//        startActivity(new Intent(this,JumpToSettingActivity.class));
+//        TextView rightButton = (TextView) view.findViewById(R.id.submit);
+//        rightButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                toastUtil.showToast("123");
+//            }
+//        });
+//        TextView leftButton = (TextView) view.findViewById(R.id.cancel);
+//        leftButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                toastUtil.showToast("456");
+//                FloatWindow.get().hide();
+//            }
+//        });
+
+
+    }
+
+    private PermissionListener mPermissionListener = new PermissionListener() {
+        @Override
+        public void onSuccess() {
+            Log.d(TAG, "onSuccess");
+        }
+
+        @Override
+        public void onFail() {
+            Log.d(TAG, "onFail");
+        }
+    };
 
     private void initBroadCast() {
         //注册网络状态监听广播
@@ -109,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         upMarqueeView.setOnItemClickListener(new UPMarqueeView.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
+                toastUtil.showToast(data.get(position).toString());
             }
         });
     }

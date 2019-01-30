@@ -110,32 +110,28 @@ public class FingerPrinterDialog extends BaseDialog {
         }
 
         if (!TextUtils.isEmpty(leftButton)) {
-
             btnLeft.setText(leftButton);
-            btnLeft.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    canelFinger();
-                    if (onClickListener != null) {
-                        onClickListener.left();
-                    }
-                }
-            });
         }
-
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                canelFinger();
+                if (onClickListener != null) {
+                    onClickListener.left();
+                }
+            }
+        });
         if (!TextUtils.isEmpty(rightButton)) {
-            line.setVisibility(View.VISIBLE);
-
             btnRight.setText(rightButton);
-            btnRight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onClickListener != null) {
-                        onClickListener.right();
-                    }
-                }
-            });
         }
+        btnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.right();
+                }
+            }
+        });
     }
 
     @Override
@@ -179,17 +175,18 @@ public class FingerPrinterDialog extends BaseDialog {
                 if (i >= 1) {
                     messageView.setText(R.string.my_touchId);
                     btnRight.setVisibility(View.VISIBLE);
-                    btnRight.setText(R.string.user_gesture);
+                    line.setVisibility(View.VISIBLE);
+                    btnRight.setText(R.string.use_password);
                     btnRight.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //指纹登录-再试一次弹窗-手势登录
                             toastUtil.showToast("别的方式登录");
-                            if (context instanceof Activity) {
-                                Activity activity = (Activity) context;
-                                activity.finish();
-                                i = 0;
-                            }
+//                            if (context instanceof Activity) {
+//                                Activity activity = (Activity) context;
+//                                activity.finish();
+//                                i = 0;
+//                            }
                         }
                     });
                 }
