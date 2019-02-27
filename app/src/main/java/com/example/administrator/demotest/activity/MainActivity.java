@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mClickFinger;
     private Button mClickAnnnotations;
     private Button mClickSelectCity;
+    private Button mClickHandler;
+    private Button mClickThreadPool;
     private FingerPrinterDialog fingerPrinterDialog;
     //监听网络变化
     private boolean isRegistered = false;
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         upMarqueeView.setOnItemClickListener(new UPMarqueeView.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view) {
-                toastUtil.showToast(data.get(position).toString());
+//                toastUtil.showToast(data.get(position).toString());
             }
         });
     }
@@ -180,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickAnnnotations = findViewById(R.id.click_annotations);
         mClickToBanner = findViewById(R.id.click_to_banner);
         mClickSelectCity = findViewById(R.id.click_to_letter);
+        mClickHandler = findViewById(R.id.click_to_handler);
+        mClickThreadPool = findViewById(R.id.click_to_threadpool);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
@@ -191,6 +195,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickAnnnotations.setOnClickListener(this);
         mClickToBanner.setOnClickListener(this);
         mClickSelectCity.setOnClickListener(this);
+        mClickHandler.setOnClickListener(this);
+        mClickThreadPool.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -323,6 +329,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.click_to_letter:
                 startActivity(new Intent(this, LetterActivity.class));
                 break;
+            case R.id.click_to_handler:
+                startActivity(new Intent(this, HandlerActivity.class));
+                break;
+            case R.id.click_to_threadpool:
+                startActivity(new Intent(this, ThreadPoolActivity.class));
+                break;
             default:
                 break;
         }
@@ -342,13 +354,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < data.size(); i = i + 2) {
             LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item, null);
             TextView tv1 = moreView.findViewById(R.id.tv1);
-//            TextView tv2 = moreView.findViewById(R.id.tv2);
+            TextView tv2 = moreView.findViewById(R.id.tv2);
             tv1.setText(data.get(i).toString());
             if (data.size() > i + 1) {
                 //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
-//                tv2.setText(data.get(i + 1).toString());
+                tv2.setText(data.get(i + 1).toString());
             } else {
-//                tv2.setVisibility(View.GONE);
+                tv2.setVisibility(View.GONE);
             }//添加到循环滚动数组里面去
             views.add(moreView);
         }
@@ -358,10 +370,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initData() {
         data = new ArrayList<>();
-        data.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
+        data.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
         data.add("iPhone8最感人变化成真，必须买买买买!!!!");
         data.add("简直是白菜价！日本玩家33万甩卖15万张游戏王卡");
-        data.add("iPhone7价格曝光了！看完感觉我的腰子有点疼...");
+        data.add("iPhone7价格曝光了！看完感觉我的腰子有点疼");
         data.add("主人内疚逃命时没带够，回废墟狂挖30小时！");
     }
 

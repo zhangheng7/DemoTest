@@ -142,6 +142,24 @@
                 android:text="点击“城市首字母页面”"
                 android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/click_to_handler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“Handler”页面"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_threadpool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“ThreadPool”页面"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
