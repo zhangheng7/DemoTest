@@ -50,10 +50,6 @@ public class RecycleViewActivity extends AppCompatActivity {
 //        recyclerView.setAdapter(new RecycleAdapter(list, this));
 
         text = findViewById(R.id.text);
-        lottie = findViewById(R.id.lottie);
-//        lottie.setAnimation("test.json");
-//        lottie.loop(true);
-//        lottie.playAnimation();
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
