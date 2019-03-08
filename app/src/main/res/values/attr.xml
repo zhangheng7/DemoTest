@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RecyclerViewBannerBase">
+        <attr name="interval" format="integer" />
+        <attr name="showIndicator" format="boolean" />
+        <attr name="indicatorSelectedSrc" format="color|reference" />
+        <attr name="indicatorUnselectedSrc" format="color|reference" />
+        <attr name="indicatorSpace" format="dimension|reference" />
+        <attr name="indicatorMarginLeft" format="dimension|reference" />
+        <attr name="indicatorMarginRight" format="dimension|reference" />
+        <attr name="indicatorMarginBottom" format="dimension|reference" />
+        <attr name="indicatorGravity" format="enum">
+            <enum name="left" value="0" />
+            <enum name="center" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="autoPlaying" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="scan">
+        <!--阴影部分的颜色-->
+        <attr name="shadowColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color"></attr>
+    </declare-styleable>
+    <declare-styleable name="CGBCustomTheme">
+        <attr name="gifViewStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundTextView">
+        <attr name="background_fillcolor" format="reference|color" />
+        <attr name="t_roundx" format="dimension" />
+        <attr name="t_roundy" format="dimension" />
+        <attr name="strokewidth_color" format="reference|color" />
+        <attr name="v_strokewidth" format="dimension" />
+    </declare-styleable>
+</resources>

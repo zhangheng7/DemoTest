@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
@@ -9,12 +11,27 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+        }
+
         release {
             minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -23,12 +40,19 @@ android {
             jniLibs.srcDir 'libs'
         }
     }
+    productFlavors {
+        dev {
+        }
+        pro {
+        }
+    }
 }
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
     implementation 'com.android.support:recyclerview-v7:26.+'
     compile 'com.jakewharton:butterknife:8.4.0'
@@ -46,5 +70,5 @@ dependencies {
     compile 'com.airbnb.android:lottie:2.0.0'
     implementation files('libs/BaiduLBS_Android.jar')
     compile 'com.github.yhaolpz:FloatWindow:1.0.9'
-
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 }

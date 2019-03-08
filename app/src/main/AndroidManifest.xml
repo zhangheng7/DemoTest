@@ -40,10 +40,9 @@
     <application
         android:name=".app.Myapp"
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@drawable/fu"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/StartingWindowTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="tKdDk1t66hhQA7b8P1iGdG1IB1kVlFnP" />
@@ -58,7 +57,10 @@
         </service>
         <service android:name=".service.CodeTimerService" />
 
-        <activity android:name=".activity.MainActivity">
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartingWindowTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,6 +79,7 @@
         <activity android:name=".activity.SelectPhotoActivity" />
         <activity android:name=".activity.RecycleViewActivity" />
         <activity android:name=".activity.AnnotationsActivity" />
+        <activity android:name=".activity.MainActivity"/>
 
         <service android:name=".service.CodeTimerService" />
         <!-- 监听网络状态 -->
@@ -91,7 +94,8 @@
         <activity android:name=".activity.BannerActivity" />
         <activity android:name=".activity.LetterActivity" />
         <activity android:name=".activity.HandlerActivity" />
-        <activity android:name=".activity.ThreadPoolActivity"></activity>
+        <activity android:name=".activity.ThreadPoolActivity" />
+        <activity android:name=".activity.BaseRecyclerViewActivity" />
     </application>
 
 </manifest>

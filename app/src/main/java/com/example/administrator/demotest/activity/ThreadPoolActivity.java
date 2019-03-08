@@ -43,7 +43,7 @@ public class ThreadPoolActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             list = (ArrayList) msg.obj;
-            listView.setAdapter(arrayAdapter);
+                listView.setAdapter(arrayAdapter);
         }
     };
 
@@ -70,7 +70,7 @@ public class ThreadPoolActivity extends AppCompatActivity {
     @OnClick(R.id.btn_threadpool)
     public void onViewClicked() {
         list.clear();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 30; i++) {
             final int index = i;
 //            Runnable runnable = new Runnable() {
 //                @Override
@@ -102,23 +102,23 @@ public class ThreadPoolActivity extends AppCompatActivity {
 //                    }
 //                }
 //            });
-//            cachedThreadPool.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    String threadName = Thread.currentThread().getName();
-//                    Log.e(TAG, "线程：" + threadName + ",正在执行第" + index + "个任务");
-//                    String s = "线程：" + threadName + ",正在执行第" + index + "个任务";
-//                    list.add(s);
-//                    Message message = new Message();
-//                    message.obj = list;
-//                    handler.sendMessage(message);
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
+            cachedThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String threadName = Thread.currentThread().getName();
+                    Log.e(TAG, "线程：" + threadName + ",正在执行第" + index + "个任务");
+                    String s = "线程：" + threadName + ",正在执行第" + index + "个任务";
+                    list.add(s);
+                    Message message = new Message();
+                    message.obj = list;
+                    handler.sendMessage(message);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 //            scheduledThreadPool.scheduleAtFixedRate(new Runnable() {
 //                @Override
 //                public void run() {

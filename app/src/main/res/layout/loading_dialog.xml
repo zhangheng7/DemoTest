@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:alpha="0.6"
+        android:background="@drawable/khqy_loading_dialog_shape"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.shouhuan.widget.GifView
+            android:id="@+id/load_gifv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_width"
+            android:enabled="false" />
+
+        <TextView
+            android:id="@+id/load_txt_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/load_gifv"
+            android:padding="@dimen/space_width"
+            android:text="加载中..."
+            android:textColor="@color/white"
+            android:textSize="@dimen/global_text_size_14" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -160,6 +160,15 @@
                 android:text="点击“ThreadPool”页面"
                 android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/click_to_BRVAH"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“BRVAH”页面"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

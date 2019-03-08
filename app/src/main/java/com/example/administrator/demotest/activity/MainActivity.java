@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mClickSelectCity;
     private Button mClickHandler;
     private Button mClickThreadPool;
+    private Button mClickBRVAH;
     private FingerPrinterDialog fingerPrinterDialog;
     //监听网络变化
     private boolean isRegistered = false;
@@ -184,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickSelectCity = findViewById(R.id.click_to_letter);
         mClickHandler = findViewById(R.id.click_to_handler);
         mClickThreadPool = findViewById(R.id.click_to_threadpool);
+        mClickBRVAH = findViewById(R.id.click_to_BRVAH);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickSelectCity.setOnClickListener(this);
         mClickHandler.setOnClickListener(this);
         mClickThreadPool.setOnClickListener(this);
+        mClickBRVAH.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -334,6 +337,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.click_to_threadpool:
                 startActivity(new Intent(this, ThreadPoolActivity.class));
+                break;
+            case R.id.click_to_BRVAH:
+                startActivity(new Intent(this, BaseRecyclerViewActivity.class));
                 break;
             default:
                 break;

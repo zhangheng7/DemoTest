@@ -8,6 +8,7 @@
     <color name="green">#FF3CBF2E</color>
     <color name="sky_blue">#33d4cf</color>
     <color name="black_alpha">#b3000000</color>
+    <color name="black_alpha_to_white">#14000000</color>
     <color name="global_text_color">#222222</color>
     <color name="line_separate_color">#e6e6e6</color>
     <color name="dialog_message">#5c5c5c</color>
