@@ -36,7 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectPhotoActivity extends AppCompatActivity implements SelectPhotoAdapter.CallBackActivity, View.OnClickListener {
+public class SelectPhotoActivity extends BaseActivity implements SelectPhotoAdapter.CallBackActivity, View.OnClickListener {
     SelectPhotoAdapter allPhotoAdapter = null;
     TextView tv_done;
     TextView tv_album_name;

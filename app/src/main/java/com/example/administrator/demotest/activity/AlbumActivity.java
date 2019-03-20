@@ -15,7 +15,7 @@ import com.example.administrator.demotest.ZZImageLoader.ZZImageLoder;
 
 import java.util.ArrayList;
 
-public class AlbumActivity extends AppCompatActivity implements View.OnClickListener {
+public class AlbumActivity extends BaseActivity implements View.OnClickListener {
 
     private ZZImageLoder zzImageLoder;
     private int screenWidth = 0;

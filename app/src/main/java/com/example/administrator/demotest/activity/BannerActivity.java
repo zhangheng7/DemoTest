@@ -1,10 +1,6 @@
 package com.example.administrator.demotest.activity;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.example.administrator.demotest.R;
 import com.example.administrator.demotest.Utils.ToastUtil;
@@ -22,7 +18,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class BannerActivity extends AppCompatActivity {
+public class BannerActivity extends BaseActivity {
 
     private OkHttpClient okHttpClient;
     String url = "http://image.baidu.com/channel/listjson?pn=0&rn=30&tag1=美女&tag2=全部&ie=utf8";
@@ -34,9 +30,16 @@ public class BannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
         customBanner = findViewById(R.id.banner_main);
+        customBanner.setBannerStyle(CustomBanner.BannerStyle.Default);
+
         okHttpClient = new OkHttpClient();
         toastUtil = new ToastUtil(BannerActivity.this);
-
+        customBanner.setClickListner(new CustomBanner.OnClickLisner() {
+            @Override
+            public void onItemClick(int position) {
+                toastUtil.showToast(String.valueOf(position));
+            }
+        });
         Request request = new Request.Builder()
                 .url(url)
                 .build();

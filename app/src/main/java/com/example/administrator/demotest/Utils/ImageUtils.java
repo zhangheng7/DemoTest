@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.administrator.demotest.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 /**
@@ -31,6 +33,26 @@ public class ImageUtils {
         }
 
         return bitmap;
+    }
+
+    private static String bitmapToBase64(Bitmap bitmap) {
+        if (bitmap == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        ByteArrayOutputStream bStream = null;
+        try {
+            bStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+            bStream.flush();
+            byte[] bytes = bStream.toByteArray();
+            sb.append(android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Utils.closeQuietly(bStream);
+        }
+        return sb.toString();
     }
 
     public static void loadImage(ImageView imageView, String host, String url) {

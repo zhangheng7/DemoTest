@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2018/6/26
  */
 
-public class RecycleViewActivity extends AppCompatActivity {
+public class RecycleViewActivity extends BaseActivity {
     private List<Integer> list = new ArrayList<Integer>();
     private TextView text;
     private LottieAnimationView lottie;

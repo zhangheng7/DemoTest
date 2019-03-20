@@ -7,6 +7,9 @@
     <dimen name="point_margin">4dp</dimen>
     <dimen name="page_margin">40dp</dimen>
     <dimen name="point_size">12dp</dimen>
+    <dimen name="point_bottom_8">8dp</dimen>
+    <dimen name="point_bottom_12">12dp</dimen>
+    <dimen name="point_bottom_16">16dp</dimen>
 
     <!-- 字体大小-->
     <dimen name="finance_title_text_size">22sp</dimen>
@@ -16,6 +19,7 @@
     <dimen name="global_text_size_14">14sp</dimen>
     <dimen name="global_text_size_13">13sp</dimen>
     <dimen name="global_text_size_12">12sp</dimen>
+    <dimen name="point_size_5">5dp</dimen>
     <dimen name="text_micro">13sp</dimen>
     <dimen name="text_micro_12">12sp</dimen>
     <dimen name="text_micro_13">13sp</dimen>
@@ -48,5 +52,6 @@
 
     <dimen name="hpv6_roundxy">3dp</dimen>
     <dimen name="divider_shadow_height">3dp</dimen>
+
 
 </resources>

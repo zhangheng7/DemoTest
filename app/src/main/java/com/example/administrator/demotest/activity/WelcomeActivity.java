@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.example.administrator.demotest.R;
 import com.example.administrator.demotest.Utils.UIHandler;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

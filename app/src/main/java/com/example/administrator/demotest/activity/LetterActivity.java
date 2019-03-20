@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * @date 2018/11/29
  */
 
-public class LetterActivity extends AppCompatActivity {
+public class LetterActivity extends BaseActivity {
     @BindView(R.id.letter_view)
     MyLetterListView mLetterView;
     private ToastUtil toastUtil;

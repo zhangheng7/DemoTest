@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HandlerActivity extends AppCompatActivity {
+public class HandlerActivity extends BaseActivity {
 
     @BindView(R.id.tv_message)
     TextView mTvMessage;

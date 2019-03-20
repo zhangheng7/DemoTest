@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ThreadPoolActivity extends AppCompatActivity {
+public class ThreadPoolActivity extends BaseActivity {
     private static final String TAG = "ThreadPoolActivity";
     @BindView(R.id.btn_threadpool)
     Button btnThreadpool;

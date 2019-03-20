@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -151,5 +156,114 @@ public class ScreenUtil {
         Point size = new Point();
         wm.getDefaultDisplay().getSize(size);
         return size.y;
+    }
+    public static boolean isConcaveScreens(Context context) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return false;
+        }
+
+        String model = Build.BRAND.toLowerCase();
+        if (context == null || context.getPackageManager() == null || TextUtils.isEmpty(model)) {
+            return false;
+        }
+
+        if (TextUtils.equals(model, "oppo")) {
+            return context.getPackageManager().hasSystemFeature("com.oppo.feature.screen.heteromorphism");
+        } else if (TextUtils.equals(model, "vivo")) {
+            return checkVivoConcave(context);
+        } else if (TextUtils.equals(model, "huawei")) {
+            return checkHuaweiConcave(context);
+        } else if (TextUtils.equals(model, "xiaomi")) {
+            return checkXiaomiConcave();
+        }
+
+        return false;
+    }
+    private static boolean checkXiaomiConcave() {
+        return TextUtils.equals(SystemProperties.get("ro.miui.notch"), "1");
+
+    }
+
+    private static boolean checkVivoConcave(Context context) {
+        try {
+            ClassLoader cl = context.getClassLoader();
+            Class FtFeature = cl.loadClass("com.util.FtFeature");
+            Method get = FtFeature.getMethod("isFeatureSupport", int.class);
+            return (boolean) get.invoke(FtFeature, 0x00000020);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private static boolean checkHuaweiConcave(Context context) {
+        try {
+            ClassLoader cl = context.getClassLoader();
+            Class hwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil");
+            Method get = hwNotchSizeUtil.getMethod("hasNotchInScreen");
+            boolean hasNotchInScreen = (boolean) get.invoke(hwNotchSizeUtil);
+            boolean isDisplayNotch = isDisplayNotch(context);
+            return hasNotchInScreen && isDisplayNotch;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public static class SystemProperties {
+        public static String get(String key) {
+            String value = "";
+            Class<?> cls = null;
+            try {
+                cls = Class.forName("android.os.SystemProperties");
+                Method hideMethod = cls.getMethod("get", String.class);
+                Object object = cls.newInstance();
+                value = (String) hideMethod.invoke(object, key);
+            } catch (ClassNotFoundException e) {
+                Log.e("error", e.toString());
+            } catch (NoSuchMethodException e) {
+                Log.e("error", e.toString());
+            } catch (InstantiationException e) {
+                Log.e("error", e.toString());
+            } catch (IllegalAccessException e) {
+                Log.e("error", e.toString());
+            } catch (IllegalArgumentException e) {
+                Log.e("error", e.toString());
+            } catch (InvocationTargetException e) {
+                Log.e("error", e.toString());
+            } catch (ClassCastException e) {
+                Log.e("error", e.toString());
+            }
+            return value;
+        }
+    }
+    private static boolean isDisplayNotch(Context context) {
+        int setting = Settings.Secure.getInt(context.getContentResolver(), "display_notch_status", 0);
+        return setting == 0;
+    }
+    public static int[] getNotchSize(Context context) {
+        int[] ret = new int[]{0, 0};
+        try {
+            ClassLoader cl = context.getClassLoader();
+            Class hwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil");
+            Method get = hwNotchSizeUtil.getMethod("getNotchSize");
+            ret = (int[]) get.invoke(hwNotchSizeUtil);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static int getXiaomiNotchSize(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("notch_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public static String getOPPONotchSize() {
+        String mProperty = SystemProperties.get("ro.oppo.screen.heteromorphism");
+        return mProperty;
     }
 }

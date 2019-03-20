@@ -24,11 +24,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +46,6 @@ import com.example.administrator.demotest.view.UPMarqueeView;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
 import com.yhao.floatwindow.PermissionListener;
-import com.yhao.floatwindow.Screen;
 
 
 import java.util.ArrayList;
@@ -57,8 +53,8 @@ import java.util.List;
 
 import networklistner.NetWorkChangReceiver;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private String TAG = "MainActivity";
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+    private static String TAG = "MainActivity";
     private static final int REQUEST_PERMISSION = 0;
 
     List<String> data = new ArrayList<>();
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mClickHandler;
     private Button mClickThreadPool;
     private Button mClickBRVAH;
+    private Button mClickWebview;
     private FingerPrinterDialog fingerPrinterDialog;
     //监听网络变化
     private boolean isRegistered = false;
@@ -89,13 +86,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //测试
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //透明或者半透明
-            translucentStatusBar(this, false);
-
-//            setStatusBarColor(this,R.color.white);
-        }
+//        //测试
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            //透明或者半透明
+//            translucentStatusBar(this, false);
+//
+////            setStatusBarColor(this,R.color.white);
+//        }
         toastUtil = new ToastUtil(this);
         initParam();
         initData();
@@ -104,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initBroadCast();
 //        initFloatWindow();
     }
+
 
     private void initFloatWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.phone_full, null);
@@ -186,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickHandler = findViewById(R.id.click_to_handler);
         mClickThreadPool = findViewById(R.id.click_to_threadpool);
         mClickBRVAH = findViewById(R.id.click_to_BRVAH);
+        mClickWebview = findViewById(R.id.click_to_Webview);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
@@ -200,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClickHandler.setOnClickListener(this);
         mClickThreadPool.setOnClickListener(this);
         mClickBRVAH.setOnClickListener(this);
+        mClickWebview.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -340,6 +340,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.click_to_BRVAH:
                 startActivity(new Intent(this, BaseRecyclerViewActivity.class));
+                break;
+            case R.id.click_to_Webview:
+                startActivity(new Intent(this, WebViewActivity.class));
                 break;
             default:
                 break;

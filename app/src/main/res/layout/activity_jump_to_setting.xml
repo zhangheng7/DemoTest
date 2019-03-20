@@ -32,7 +32,17 @@
                 android:background="@drawable/shape_circle_blue"
                 android:text="跳转到相册"
                 android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_jump_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="跳转到日历"
+                android:textColor="@color/white" />
         </LinearLayout>
+
     </ScrollView>
 
 

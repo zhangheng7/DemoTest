@@ -39,7 +39,7 @@ import com.example.administrator.demotest.Utils.ToastUtil;
 
 import java.time.LocalDate;
 
-public class MapActivity extends AppCompatActivity implements View.OnClickListener {
+public class MapActivity extends BaseActivity implements View.OnClickListener {
     private LocationClient mLocationClient;
     BDLocationListener listener = new MyLocationListner();
     private LatLng latLng;
