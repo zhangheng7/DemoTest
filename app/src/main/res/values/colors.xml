@@ -23,4 +23,5 @@
     <color name="gf_keyboard_title_background">#f0f0f0</color>
     <color name="gf_keyboard_title_text">#8f8f8f</color>
     <color name="loading_background_color">#f2f2f2</color>
+    <color name="status_bar_alpha">#00f2f2f2</color>
 </resources>

@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseRecyclerViewActivity extends AppCompatActivity {
+public class BaseRecyclerViewActivity extends BaseActivity {
     List list;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;

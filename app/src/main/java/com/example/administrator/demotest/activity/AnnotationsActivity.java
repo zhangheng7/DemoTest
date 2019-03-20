@@ -15,7 +15,7 @@ import com.example.administrator.demotest.R;
  * @author zhangheng
  * @date 2018/7/17
  */
-public class AnnotationsActivity extends AppCompatActivity {
+public class AnnotationsActivity extends BaseActivity {
 
     private TextView tv;
 

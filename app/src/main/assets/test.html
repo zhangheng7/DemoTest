@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+</head>
+<style>
+    #bt1 {
+        margin-top: 50px;
+    }
+</style>
+<body>
+<button type="submit" id="bt0" onclick="wucan()">无参调用Android中的方法</button>
+<button type="submit" id="bt1" onclick="youcan()">有参参调用Android中的方法</button>
+
+<p id="content" style="margin-top: 20px">我会变的</p>
+</body>
+<script type="text/javascript">
+    var name = "啊biubiubiu 哇哇哇"
+    function wucan() {
+        android.setMessage();
+    }
+    function youcan() {
+        android.setMessage(name);
+    }
+    var content = document.getElementById('content');
+    function Androidwucan() {
+        content.innerHTML = "略略略略略略略略略略"
+    }
+    ;
+
+    function Androidyoucan(des) {
+        content.innerHTML = "调用了" + des;
+    }
+    ;
+</script>
+</html>

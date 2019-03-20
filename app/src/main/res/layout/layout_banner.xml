@@ -11,12 +11,21 @@
         android:layout_gravity="center"
         android:clipChildren="false" />
 
-    <LinearLayout
-        android:id="@+id/point_group"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal" />
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/point_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" />
+
+    </FrameLayout>
 
 </RelativeLayout>

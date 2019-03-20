@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" style="width: 100%;height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <script src="jquery_1.8.0.js"></script>
+    <link rel="stylesheet" href="css/center.css">
+</head>
+<body style="background: url(img/timg.jpg) no-repeat;background-size: 100% 100%; ">
+<!--script-->
+
+<noscript>对不起，你的浏览器不支持JavaScript</noscript>
+
+<div class="news" id="news">
+    <div class="header_content" id="header_content">
+        <h1>Hello World!</h1>
+    </div>
+    <hr style="background-color: red;height: 1px;border: none">
+    <div id="two_floor" class="two_floor">
+        <h3>不知道写什么，就瞎写的一段话。</h3>
+    </div>
+    <div style="width: 1092px;height: 344px">
+        <div class="three_floor" id="three_floor" style="float: left; width: auto;height: auto;margin-left: 10px;">
+            <!--//视频哦-->
+            <!--<video src="movie.ogg" width="500px" height="500px" controls="controls"/>-->
+            <img src="img/helicopter.gif" width="500px" height="320px" id="iv-center">
+
+        </div>
+    </div>
+    <div class="four_floor" id="four_floor">
+        <a href="index2.html" target="_blank">广发金融中心九楼发现精彩</a>
+        <hr/>
+    </div>
+    <div style="width: auto;height: 180px">
+        <!--<iframe src="index2.html" name="iframe a" frameborder="0" class="iframe" width="100%" height="70px"></iframe>-->
+        <div style="float: left;width: 480px; height: auto;">
+            <table border="1" width="480px" style="border-spacing: inherit;margin-top: 5px ">
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                </tr>
+                <tr align="center">
+                    <td>Tom</td>
+                    <td>男</td>
+                    <td>11111111111</td>
+                </tr>
+            </table>
+            <table border="1" width="480px" style="border-spacing:inherit;margin-top: 5px">
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                </tr>
+                <tr align="center">
+                    <td>二狗</td>
+                    <td>男</td>
+                    <td>22222222222</td>
+                </tr>
+            </table>
+            <table border="1" width="480px" style="border-spacing: inherit;margin-top: 5px ">
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                </tr>
+                <tr align="center">
+                    <td>三三</td>
+                    <td>男</td>
+                    <td>33333333333</td>
+                </tr>
+            </table>
+        </div>
+
+        <ul type="disc" style="float: left;margin-left: 30px">
+            <li>苹果</li>
+            <li>香蕉
+                <ol style="margin-left: 20px;">
+                    <li>中国香蕉</li>
+                    <li>外国香蕉
+                        <ul type="square" style="margin-left: 20px;">
+                            <li>泰国香蕉</li>
+                            <li>马来西亚香蕉</li>
+                            <li>越南香蕉</li>
+                        </ul>
+                    </li>
+                </ol>
+            </li>
+            <li>大鸭梨</li>
+        </ul>
+        <div style="width: 400px;height: auto;float: left;margin-left: 20px;">
+            <form>
+                <!--autocomplete="off"  表示不保存当前输入框输入过的内容（不保存输入缓存）-->
+                这里可以加/减/乘/除 <br>
+                <input type="text" id="num_a" autocomplete="off">
+                <select name="operator" id="operator">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+                <input type="text" id="num_b" autocomplete="off"><br>
+                <input type="button" onclick="count()" value="运算" style="width: 200px; margin-left: 100px">
+                <br>
+                <select name="card" id="select" onchange="cars()">
+                    <option selected>请选择车系</option>
+                    <option value="沃尔沃">沃尔沃</option>
+                    <option value="日产">日产</option>
+                    <option value="丰田">丰田</option>
+                    <option value="大众">大众</option>
+                </select>
+                <!--头部标签-->
+                <header>
+                    <p>我是header</p>
+                </header>
+                <!--脚部标签-->
+                <footer>
+                    <p>我是footer</p>
+                    <p>
+                        <button onclick="clickCounter()" type="button">localStorage请点击这里！关闭再打开不清除</button>
+                    </p>
+                    <div id="result1"></div>
+                    <p>
+                        <button onclick="clickCount()" type="button">sessionStorage请点击这里！关闭再打开清除</button>
+                    </p>
+                    <div id="result2"></div>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    $("#iv-center").click(function () {
+        alert('2222');
+    });
+    function count() {
+        var num_a = parseInt(document.getElementById('num_a').value);
+        var num_b = parseInt(document.getElementById('num_b').value);
+        var sum = "";
+        if (isNaN(num_a) || isNaN(num_b)) {
+            alert("输入错误，请重新输入！");
+            return;
+        }
+        var operator = document.getElementById('operator').value;
+        switch (operator) {
+            case "+":
+                sum = num_a + num_b;
+                alert(sum);
+                break;
+            case "-":
+                sum = num_a - num_b;
+                alert(sum);
+                break;
+            case "*":
+                sum = num_a * num_b;
+                alert(sum);
+                break;
+            case "/":
+                sum = num_a / num_b;
+                alert(sum);
+                break;
+            default:
+                break;
+        }
+    }
+    function cars() {
+        alert($('#select').val());
+    }
+    function clickCounter() {
+        if (typeof(Storage) !== "undefined") {
+            if (localStorage.clickcount) {
+                localStorage.clickcount = Number(localStorage.clickcount) + 1;
+            } else {
+                localStorage.clickcount = 1;
+            }
+            $("#result1").html("您已经点击这个按钮 " + localStorage.clickcount + " 次。");
+        } else {
+            alert('抱歉，此Web不支持Web Storage')
+        }
+    }
+    function clickCount() {
+        if (typeof (Storage) !== "undefined") {
+            if (sessionStorage.clickcount) {
+                sessionStorage.clickcount = Number(sessionStorage.clickcount) + 1;
+            } else {
+                sessionStorage.clickcount = 1;
+            }
+            $("#result2").text("您已经点击这个按钮" + sessionStorage.clickcount + "次。")
+        } else {
+            alert('抱歉，此Web不支持Web Storage')
+        }
+    }
+
+</script>
+</body>
+</html>

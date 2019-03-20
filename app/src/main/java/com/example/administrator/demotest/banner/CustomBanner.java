@@ -36,10 +36,10 @@ public class CustomBanner extends FrameLayout {
     @BindView(R.id.banner_viewpager)
     ViewPager bannerViewPager;
     @BindView(R.id.point_group)
-    LinearLayout linearBannner;
+    LinearLayout pointGroup;
     @BindView(R.id.layout_banner)
     RelativeLayout main;
-    private List<String> list;
+    private List<String> list = new ArrayList<>();
     private int time = 2;
 
     private Handler handler = new Handler() {
@@ -50,7 +50,6 @@ public class CustomBanner extends FrameLayout {
                 int currentItem = bannerViewPager.getCurrentItem();
 
                 bannerViewPager.setCurrentItem(currentItem + 1);
-
                 //再次发送
                 sendEmptyMessageDelayed(0, time * 1000);
 
@@ -76,6 +75,40 @@ public class CustomBanner extends FrameLayout {
         init();
     }
 
+    public enum BannerStyle {
+        /**
+         * 默认
+         */
+        Default,
+        /**
+         * 轮播1
+         */
+        One,
+        /**
+         * 轮播2
+         */
+        Two,
+        /**
+         * 轮播3
+         */
+        Three
+    }
+
+    private enum PointStyle {
+        /**
+         * 指示线线条
+         */
+        Line,
+        /**
+         * 指示器圆圈
+         */
+        Circle,
+        /**
+         * 指示器不显示
+         */
+        Gone
+    }
+
     /**
      * 初始化
      */
@@ -89,7 +122,7 @@ public class CustomBanner extends FrameLayout {
     /**
      * 对外提供设置image路径的方法
      */
-    public void setImageUrls(List<String> list) {
+    public void setImageUrls(final List<String> list) {
         this.list = list;
 
         if (list == null) {
@@ -100,8 +133,6 @@ public class CustomBanner extends FrameLayout {
         LunBoAdapter lunBoAdapter = new LunBoAdapter(getContext(), list);
         bannerViewPager.setAdapter(lunBoAdapter);
 
-        initDoc();
-
         //显示中间某个位置
         bannerViewPager.setCurrentItem(list.size() * 10000);
         bannerViewPager.setOffscreenPageLimit(3);
@@ -109,8 +140,8 @@ public class CustomBanner extends FrameLayout {
         pagerScroller.setScrollDuration(500);
         pagerScroller.initViewPagerScroll(bannerViewPager);
 
-        //使用handler自动轮播
-        handler.sendEmptyMessageDelayed(0, time * 1000);
+//        //使用handler自动轮播
+//        handler.sendEmptyMessageDelayed(0, time * 1000);
 
         //状态改变的监听事件
         bannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -122,13 +153,18 @@ public class CustomBanner extends FrameLayout {
             @Override
             public void onPageSelected(int position) {
                 //在选中某一页的时候,切换小圆点的背景
-                for (int i = 0; i < listDoc.size(); i++) {
-                    if (position % listDoc.size() == i) {
-                        listDoc.get(i).setBackgroundResource(R.drawable.banner_circle_def);
-                    } else {
-                        listDoc.get(i).setBackgroundResource(R.drawable.banner_circle_sel);
+                if (!list.isEmpty()) {
+                    int index = position % list.size();
+                    for (int i = 0; i < pointGroup.getChildCount(); i++) {
+                        View pointView = pointGroup.getChildAt(i);
+                        if (position % list.size() == i) {
+                            pointView.setSelected(index == i);
+                        }else{
+                            pointView.setSelected(false);
+                        }
                     }
                 }
+
             }
 
             @Override
@@ -141,27 +177,67 @@ public class CustomBanner extends FrameLayout {
     /**
      * 初始化小圆点
      */
-    private void initDoc() {
+    private void initDoc(PointStyle pointStyle, BannerStyle bannerStyle) {
         //创建一个集合,记录这些小圆点
         listDoc = new ArrayList<>();
         //清空布局
-        linearBannner.removeAllViews();
+        pointGroup.removeAllViews();
 
         for (int i = 0; i < list.size(); i++) {
-            ImageView docImage = new ImageView(getContext());
-            if (i == 0) {
-                docImage.setBackgroundResource(R.drawable.banner_circle_def);
-            } else {
-                docImage.setBackgroundResource(R.drawable.banner_circle_sel);
+            // 制作底部小圆点
+            ImageView pointImage = new ImageView(getContext());
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            switch (pointStyle) {
+                case Line:
+                    pointImage.setImageResource(R.drawable.shape_point_selector);
+                    // 设置小圆点的布局参数
+                    int pointWidth = getContext().getResources().getDimensionPixelSize(R.dimen.point_width);
+                    int pointHeight = getContext().getResources().getDimensionPixelSize(R.dimen.point_height);
+                    params = new LinearLayout.LayoutParams(pointWidth, pointHeight);
+                    break;
+                case Circle:
+                    pointImage.setImageResource(R.drawable.shape_point_selector_two);
+                    // 设置小圆点的布局参数
+                    int pointSize = getContext().getResources().getDimensionPixelSize(R.dimen.point_size_5);
+                    params = new LinearLayout.LayoutParams(pointSize, pointSize);
+                    break;
+                case Gone:
+                    break;
+                default:
+                    break;
             }
-            //添加到集合
-            listDoc.add(docImage);
-            //添加到线性布局
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(5, 0, 5, 0);
-            linearBannner.addView(docImage, params);
+
+            if (i > 0) {
+                params.leftMargin = getContext().getResources().getDimensionPixelSize(R.dimen.point_margin);
+                switch (bannerStyle) {
+                    case One:
+                        params.bottomMargin = getContext().getResources().getDimensionPixelSize(R.dimen.point_bottom_8);
+                        break;
+                    case Two:
+                        params.bottomMargin = getContext().getResources().getDimensionPixelSize(R.dimen.point_bottom_12);
+                        break;
+                    case Default:
+                        params.bottomMargin = getContext().getResources().getDimensionPixelSize(R.dimen.point_bottom_8);
+                        break;
+                    default:
+                        break;
+                }
+                pointImage.setSelected(false);
+            } else {
+                pointImage.setSelected(true);
+            }
+            pointImage.setLayoutParams(params);
+            pointGroup.addView(pointImage);
         }
 
+        //大于1张才滚动
+        if (list.size() > 1) {
+            handler.sendEmptyMessageDelayed(0, time * 1000);
+            pointGroup.setVisibility(View.VISIBLE);
+        } else {
+            pointGroup.setVisibility(View.GONE);
+        }
 
     }
 
@@ -176,9 +252,10 @@ public class CustomBanner extends FrameLayout {
      * 提供两侧缩进
      */
     public void setBannerStyle(BannerStyle style) {
+        PointStyle pointStyle = PointStyle.Gone;
         switch (style) {
             case Default: {
-//                pointStyle = PointStyle.Line;
+                pointStyle = PointStyle.Circle;
                 main.setClipChildren(false);
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) bannerViewPager.getLayoutParams();
                 lp.setMargins(DensityUtil.dp2px(getContext(), 20),
@@ -189,10 +266,11 @@ public class CustomBanner extends FrameLayout {
                 bannerViewPager.setLayoutParams(lp);
                 bannerViewPager.setPageTransformer(true, new AlphaScaleTransformer());
                 bannerViewPager.setPageMargin(DensityUtil.dp2px(getContext(), 8));
+                initDoc(pointStyle, style);
                 break;
             }
             case One: {
-//                pointStyle = PointStyle.Line;
+                pointStyle = PointStyle.Line;
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) bannerViewPager.getLayoutParams();
                 lp.setMargins(DensityUtil.dp2px(getContext(), 15),
                         DensityUtil.dp2px(getContext(), 0),
@@ -201,15 +279,17 @@ public class CustomBanner extends FrameLayout {
                 bannerViewPager.setLayoutParams(lp);
                 bannerViewPager.setPageMargin(DensityUtil.dp2px(getContext(), 8));
                 bannerViewPager.setPageTransformer(true, new AlphaScaleTransformer());
+                initDoc(pointStyle, style);
                 break;
             }
             case Two: {
-//                pointStyle = PointStyle.Circle;
+                pointStyle = PointStyle.Circle;
                 bannerViewPager.setPageTransformer(true, new AlphaScaleTransformer());
+                initDoc(pointStyle, style);
                 break;
             }
             case Three: {
-//                pointStyle = PointStyle.Gone;
+                pointStyle = PointStyle.Gone;
                 main.setClipChildren(false);
                 RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) bannerViewPager.getLayoutParams();
                 lp.setMargins(DensityUtil.dp2px(getContext(), 15),
@@ -220,9 +300,9 @@ public class CustomBanner extends FrameLayout {
                 bannerViewPager.setLayoutParams(lp);
                 bannerViewPager.setPageTransformer(true, new SameHeightTransformer());
                 bannerViewPager.setPageMargin(DensityUtil.dp2px(getContext(), 8));
+                initDoc(pointStyle, style);
                 break;
             }
-
         }
     }
 
@@ -238,7 +318,7 @@ public class CustomBanner extends FrameLayout {
 
     private class LunBoAdapter extends PagerAdapter {
 
-        private List<String> list;
+        private List<String> list = new ArrayList<>();
         private Context context;
 
         public LunBoAdapter(Context context, List<String> list) {
@@ -324,22 +404,5 @@ public class CustomBanner extends FrameLayout {
         void onItemClick(int position);
     }
 
-    public enum BannerStyle {
-        /**
-         * 默认
-         */
-        Default,
-        /**
-         * 轮播1
-         */
-        One,
-        /**
-         * 轮播2
-         */
-        Two,
-        /**
-         * 轮播3
-         */
-        Three
-    }
+
 }

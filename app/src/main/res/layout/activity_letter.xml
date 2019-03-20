@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.example.administrator.demotest.view.MyLetterListView
         android:id="@+id/letter_view"
@@ -11,4 +13,10 @@
         android:alpha="0.8"
         android:paddingBottom="30dp"
         android:paddingTop="30dp" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icon_scan"
+        tools:src="@drawable/icon_scan" />
 </RelativeLayout>
