@@ -13,6 +13,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import okhttp3.internal.Util;
+
 /**
  * @author zhangheng
  * @date 2018/5/31
@@ -66,127 +68,127 @@ public class FileUtil {
      *
      * @return boolean true 拷贝成功；false 拷贝失败
      * **/
-//    public static boolean copyFile(Context context, String sourceFileName, String targetFileFolder, String targetFileName) {
-//
-//        boolean flag = false;
-//
-//        //如果文件不存在，则新建文件
-//        if (!isFileExist(targetFileFolder + targetFileName))
-//            createNewFile(targetFileFolder, targetFileName);
-//
-//        InputStream assetsDB = null;
-//        OutputStream dbOut = null;
-//        try {
-//            assetsDB = context.getResources().getAssets().open(sourceFileName);
-//            dbOut = new FileOutputStream(targetFileFolder + targetFileName);
-//
-//            byte[] buffer = new byte[1024];
-//            int length;
-//            while ((length = assetsDB.read(buffer)) > 0) {
-//                dbOut.write(buffer, 0, length);
-//            }
-//
-//            dbOut.flush();
-//            flag = true;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            Util.closeQuietly(dbOut);
-//            Util.closeQuietly(assetsDB);
-//        }
-//
-//        return flag;
-//    }
+    public static boolean copyFile(Context context, String sourceFileName, String targetFileFolder, String targetFileName) {
+
+        boolean flag = false;
+
+        //如果文件不存在，则新建文件
+        if (!isFileExist(targetFileFolder + targetFileName))
+            createNewFile(targetFileFolder, targetFileName);
+
+        InputStream assetsDB = null;
+        OutputStream dbOut = null;
+        try {
+            assetsDB = context.getResources().getAssets().open(sourceFileName);
+            dbOut = new FileOutputStream(targetFileFolder + targetFileName);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = assetsDB.read(buffer)) > 0) {
+                dbOut.write(buffer, 0, length);
+            }
+
+            dbOut.flush();
+            flag = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Util.closeQuietly(dbOut);
+            Util.closeQuietly(assetsDB);
+        }
+
+        return flag;
+    }
 
     /**
      * 获取单个文件的MD5is值！
      *
      * @return
      */
-//    public static String getFileMD5(String filePath) {
-//        if (!isFileExist(filePath)) {
-//            return null;
-//        }
-//        MessageDigest digest = null;
-//        FileInputStream in = null;
-//        byte buffer[] = new byte[1024];
-//        int len;
-//        try {
-//            digest = MessageDigest.getInstance("MD5");
-//            digest.reset();
-//            in = new FileInputStream(new File(filePath));
-//            while ((len = in.read(buffer, 0, 1024)) != -1) {
-//                digest.update(buffer, 0, len);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        } finally {
-//            Util.closeQuietly(in);
-//        }
-//
-//        byte[] byteArray = digest.digest();
-//
-//        StringBuilder md5StrBuff = new StringBuilder();
-//
-//        //将加密后的byte数组转换为十六进制的字符串,否则的话生成的字符串会乱码
-//        for (int i = 0; i < byteArray.length; i++) {
-//            //
-//            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
-//                //
-//                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
-//            } else {
-//                //
-//                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
-//            }
-//        }
-//
-//        return md5StrBuff.toString();
-//    }
+    public static String getFileMD5(String filePath) {
+        if (!isFileExist(filePath)) {
+            return null;
+        }
+        MessageDigest digest = null;
+        FileInputStream in = null;
+        byte buffer[] = new byte[1024];
+        int len;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.reset();
+            in = new FileInputStream(new File(filePath));
+            while ((len = in.read(buffer, 0, 1024)) != -1) {
+                digest.update(buffer, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            Util.closeQuietly(in);
+        }
+
+        byte[] byteArray = digest.digest();
+
+        StringBuilder md5StrBuff = new StringBuilder();
+
+        //将加密后的byte数组转换为十六进制的字符串,否则的话生成的字符串会乱码
+        for (int i = 0; i < byteArray.length; i++) {
+            //
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+                //
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            } else {
+                //
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+            }
+        }
+
+        return md5StrBuff.toString();
+    }
 
     /**
      * 获取单个文件的MD5值！
      *
      * @return
      */
-//    public static String getFileMD5(InputStream in) {
-//
-//        if (in == null) return null;
-//        MessageDigest digest = null;
-//        byte buffer[] = new byte[1024];
-//        int len;
-//        try {
-//            digest = MessageDigest.getInstance("MD5");
-//            digest.reset();
-//            while ((len = in.read(buffer, 0, 1024)) != -1) {
-//                digest.update(buffer, 0, len);
-//            }
-//            in.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "";
-//        } finally {
-//            Util.closeQuietly(in);
-//        }
-//
-//        //BigInteger bigInt = new BigInteger(1, digest.digest());
-//        byte[] byteArray = digest.digest();
-//
-//        StringBuilder md5StrBuff = new StringBuilder();
-//
-//        //将加密后的byte数组转换为十六进制的字符串,否则的话生成的字符串会乱码
-//        for (int i = 0; i < byteArray.length; i++) {
-//            //
-//            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
-//                //
-//                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
-//            } else {
-//                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
-//            }
-//        }
-//
-//        return md5StrBuff.toString();
-//    }
+    public static String getFileMD5(InputStream in) {
+
+        if (in == null) return null;
+        MessageDigest digest = null;
+        byte buffer[] = new byte[1024];
+        int len;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.reset();
+            while ((len = in.read(buffer, 0, 1024)) != -1) {
+                digest.update(buffer, 0, len);
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        } finally {
+            Util.closeQuietly(in);
+        }
+
+        //BigInteger bigInt = new BigInteger(1, digest.digest());
+        byte[] byteArray = digest.digest();
+
+        StringBuilder md5StrBuff = new StringBuilder();
+
+        //将加密后的byte数组转换为十六进制的字符串,否则的话生成的字符串会乱码
+        for (int i = 0; i < byteArray.length; i++) {
+            //
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+                //
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            } else {
+                md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+            }
+        }
+
+        return md5StrBuff.toString();
+    }
 
     /**
      * 递归删除文件和文件夹
@@ -306,21 +308,21 @@ public class FileUtil {
      * @param fileName
      * @return
      */
-//    public static String readAssets(Context context, String fileName) {
-//        //读取本地预置appList配置
-//        InputStream is = null;
-//        try {
-//            is = context.getAssets().open(fileName);
-//            int size = is.available();
-//            byte[] buffer = new byte[size];
-//            is.read(buffer);
-//            is.close();
-//            return new String(buffer, "utf-8");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            Util.closeQuietly(is);
-//        }
-//        return "";
-//    }
+    public static String readAssets(Context context, String fileName) {
+        //读取本地预置appList配置
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            return new String(buffer, "utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Util.closeQuietly(is);
+        }
+        return "";
+    }
 }

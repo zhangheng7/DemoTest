@@ -42,4 +42,10 @@
         <attr name="strokewidth_color" format="reference|color" />
         <attr name="v_strokewidth" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="StatusBarHeightView">
+        <attr name="use_type" format="integer">
+            <enum name="use_height" value="0" />
+            <enum name="use_padding_top" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>
