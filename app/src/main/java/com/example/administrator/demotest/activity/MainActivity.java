@@ -8,6 +8,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,6 +27,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +39,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.administrator.demotest.BuildConfig;
+import com.example.administrator.demotest.Mvp2.login.MvpActivity;
 import com.example.administrator.demotest.R;
+import com.example.administrator.demotest.Utils.DensityUtil;
 import com.example.administrator.demotest.Utils.ToastUtil;
 import com.example.administrator.demotest.Utils.UIHandler;
 import com.example.administrator.demotest.view.ConfirmDialog;
 import com.example.administrator.demotest.view.FingerPrinterDialog;
-import com.example.administrator.demotest.view.OnButtonDialog;
+import com.example.administrator.demotest.view.MissionSquarePopWindow;
+import com.example.administrator.demotest.view.OneButtonDialog;
 import com.example.administrator.demotest.view.UPMarqueeView;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
@@ -56,6 +63,7 @@ import networklistner.NetWorkChangReceiver;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static String TAG = "MainActivity";
     private static final int REQUEST_PERMISSION = 0;
+    private static final int CAMERA_REQUIRE_STORAGE_PERMISSION = 10000;
 
     List<String> data = new ArrayList<>();
     List<View> views = new ArrayList<>();
@@ -77,10 +85,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button mClickThreadPool;
     private Button mClickBRVAH;
     private Button mClickWebview;
+    private Button mClickMvp;
+    private Button mClickPop;
+    private Button mClickWaterMarke;
     private FingerPrinterDialog fingerPrinterDialog;
     //监听网络变化
     private boolean isRegistered = false;
     private NetWorkChangReceiver netWorkChangReceiver;
+    private long exitTime;
+    private int maxExitTime = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +113,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initClick();
         initBroadCast();
 //        initFloatWindow();
+        String serverHost = BuildConfig.SERVER_HOST;
+        Log.e("serverHost", serverHost);
     }
 
 
@@ -185,6 +200,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mClickThreadPool = findViewById(R.id.click_to_threadpool);
         mClickBRVAH = findViewById(R.id.click_to_BRVAH);
         mClickWebview = findViewById(R.id.click_to_Webview);
+        mClickMvp = findViewById(R.id.click_to_Mvp);
+        mClickPop = findViewById(R.id.click_to_pop);
+        mClickWaterMarke = findViewById(R.id.click_to_watermarke);
 
         mBtnClickToToSetting.setOnClickListener(this);
         mBtnClickToRefresh.setOnClickListener(this);
@@ -200,6 +218,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mClickThreadPool.setOnClickListener(this);
         mClickBRVAH.setOnClickListener(this);
         mClickWebview.setOnClickListener(this);
+        mClickMvp.setOnClickListener(this);
+        mClickPop.setOnClickListener(this);
+        mClickWaterMarke.setOnClickListener(this);
     }
 
     @RequiresApi(api = 26)
@@ -223,7 +244,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                        .start(this, 88);
                 break;
             case R.id.click_to_map:
-                if (checkPermession()) {
+                if (checkLocationPermession()) {
                     startActivity(new Intent(MainActivity.this, MapActivity.class));
                 }
                 break;
@@ -293,7 +314,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     public void onAuthenticationError() {
                         Log.e(TAG, "onAuthenticationError: ");
                         fingerPrinterDialog.dismiss();
-                        dialog = new OnButtonDialog.Builder(MainActivity.this)
+                        dialog = new OneButtonDialog.Builder(MainActivity.this)
                                 .setMessage(getString(R.string.fingertimes_out))
                                 .setOkButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                     @Override
@@ -343,6 +364,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.click_to_Webview:
                 startActivity(new Intent(this, WebViewActivity.class));
+                break;
+            case R.id.click_to_Mvp:
+                startActivity(new Intent(this, MvpActivity.class));
+                break;
+            case R.id.click_to_pop:
+                View view = getWindow().getDecorView().findViewById(android.R.id.content);
+                new MissionSquarePopWindow.Builder(this)
+                        .setDurtion(5000)
+                        .setMissionSquareClickListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                toastUtil.showToast("略略略略略略略略略略略略");
+                            }
+                        })
+                        .build().showAtLocation(view, Gravity.BOTTOM, 0, DensityUtil.dp2px(this, 65));
+                break;
+            case R.id.click_to_watermarke:
+                if (checkStoragePermession()) {
+                    startActivity(new Intent(this, WaterMarkeActivity.class));
+                }
                 break;
             default:
                 break;
@@ -481,40 +522,45 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private boolean checkPermession() {
-        boolean locatonPermession = this.getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this.getPackageName()) == PackageManager.PERMISSION_GRANTED;
-        if (!locatonPermession) {
+    private boolean checkLocationPermession() {
+        boolean locationPermession = this.getPackageManager().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        if (!locationPermession) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermission();
+                requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION);
             }
             return false;
         }
         return true;
     }
 
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{
-                        /*Manifest.permission.WRITE_EXTERNAL_STORAGE,*/
-//                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,},
-                REQUEST_PERMISSION);
+    private boolean checkStoragePermession() {
+        boolean writeStoragePermession = this.getPackageManager().checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, this.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        boolean readStoragePermession = this.getPackageManager().checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, this.getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        if (!writeStoragePermession || !readStoragePermession) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        CAMERA_REQUIRE_STORAGE_PERMISSION);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void requestPermissions(Activity activity, String[] strings, int cameraRequireStoragePermission) {
+        ActivityCompat.requestPermissions(activity, strings, cameraRequireStoragePermission);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults.length == 0) {
                 dialog = new ConfirmDialog.Builder(this)
                         .setMessage("啊哦，权限被拒绝了，请点击确定开启权限")
                         .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
+                                toSelfSetting(getActivity());
                             }
                         })
                         .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -527,6 +573,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 dialog.show();
             } else {
                 startActivity(new Intent(this, MapActivity.class));
+            }
+        } else if (requestCode == CAMERA_REQUIRE_STORAGE_PERMISSION) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults.length == 0) {
+                toastUtil.showToast("权限拒绝");
+            } else {
+                startActivity(new Intent(this, WaterMarkeActivity.class));
             }
         }
     }
@@ -548,5 +600,52 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //           dialog.show();
 //        }
 //    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exitApp();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exitApp() {
+        if ((System.currentTimeMillis() - exitTime) > maxExitTime) {
+            exitTime = System.currentTimeMillis();
+        } else {
+            new ConfirmDialog.Builder(this)
+                    .setMessage("你确定要离开我这个帅气的App吗？")
+                    .setNegativeButton("不，我要留下", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            toastUtil.showToast("嗯，帅气的选择！");
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton("嗯，我走了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .build().show();
+        }
+    }
+
+    public static void toSelfSetting(Context context) {
+        Intent mIntent = new Intent();
+        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            mIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            mIntent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        } else if (Build.VERSION.SDK_INT <= 8) {
+            mIntent.setAction(Intent.ACTION_VIEW);
+            mIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+            mIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+        }
+        context.startActivity(mIntent);
+    }
 
 }

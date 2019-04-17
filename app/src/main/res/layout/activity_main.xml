@@ -3,8 +3,9 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <include layout="@layout/navtitle" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -172,6 +173,33 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_blue"
                 android:text="点击“Webview”页面"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_Mvp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“Mvp”页面"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_pop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“popWindow”页面"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/click_to_watermarke"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_circle_blue"
+                android:text="点击“waterMarker”页面"
                 android:textColor="@color/white" />
 
         </LinearLayout>

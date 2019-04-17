@@ -1,10 +1,8 @@
 package com.example.administrator.demotest.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.administrator.demotest.R;
 import com.example.administrator.demotest.Utils.UIHandler;
 
 public class WelcomeActivity extends BaseActivity {

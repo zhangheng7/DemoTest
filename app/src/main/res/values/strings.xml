@@ -9,5 +9,6 @@
     <string name="please_check_finger">请验证已有指纹</string>
     <string name="fingertimes_out">指纹验证已超限</string>
     <string name="write_password">输入密码登录</string>
+    <string name="permission_file_fail">获取文件系统权限失败，请打开文件系统权限！</string>
 
 </resources>

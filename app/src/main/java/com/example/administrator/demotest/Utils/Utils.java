@@ -37,6 +37,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.example.administrator.demotest.R;
+
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -235,6 +239,22 @@ public class Utils {
         return false;
     }
 
+
+    /**
+     * 判断是否有动态SmartBar
+     */
+    private static boolean hasSmartBar() {
+        try {
+            // 新型号可用反射调用Build.hasSmartBar()
+            Method method = Class.forName("android.os.Build").getMethod(
+                    "hasSmartBar");
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+            Log.d(TAG, "hasSmartBar: " + e);
+        }
+        return false;
+    }
+
     /**
      * 隐藏魅族手机smartbar
      */
@@ -255,95 +275,8 @@ public class Utils {
             arrayOfObject[0] = localField.get(null);
             localMethod.invoke(decorView, arrayOfObject);
         } catch (Exception e) {
-            Log.d(TAG, "hide: " + e);
-        }
-    }
-
-
-    /**
-     * 判断是否有动态SmartBar
-     */
-    private static boolean hasSmartBar() {
-        try {
-            // 新型号可用反射调用Build.hasSmartBar()
-            Method method = Class.forName("android.os.Build").getMethod(
-                    "hasSmartBar");
-            return ((Boolean) method.invoke(null)).booleanValue();
-        } catch (Exception e) {
-            Log.d(TAG, "hasSmartBar: " + e);
-        }
-        return false;
-    }
-
-
-    /**
-     * 获取图片大小
-     */
-    public static float getSizeOfBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        long length = baos.toByteArray().length / 1024;
-        return length;
-    }
-
-    private static InputStream Bitmap2IS(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        InputStream stream = null;
-        try {
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            stream = new ByteArrayInputStream(baos.toByteArray());
-        } catch (Throwable e) {
             e.printStackTrace();
         }
-        return stream;
-    }
-
-    /**
-     * 图片转换成base64字符串
-     */
-    public static String bitmap2String(Bitmap bitmap) {
-        String string = "";
-        ByteArrayOutputStream bStream = null;
-        try {
-            bStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bStream);
-            byte[] bytes = bStream.toByteArray();
-            string = Base64Self.encode(bytes);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        } finally {
-            closeQuietly(bStream);
-        }
-        return string;
-    }
-
-    /**
-     * 图片转换成base64字符串
-     */
-    public static String bitmap2String(Bitmap bitmap, int maxSize) {
-        if (bitmap == null) {
-            return "";
-        }
-
-        String str = "";
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-            int options = 100;
-            while (baos.toByteArray().length / 1024 > maxSize) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-                baos.reset();// 重置baos即清空baos
-                bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
-                options -= 10;// 每次都减少10
-            }
-            byte[] bytes = baos.toByteArray();
-            str = Base64Self.encode(bytes);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        } finally {
-            closeQuietly(baos);
-        }
-        return str;
     }
 
     public static Bitmap readBitmap(Context context, int resId) {
@@ -1043,6 +976,146 @@ public class Utils {
             Utils.closeQuietly(bStream);
         }
         return sb.toString();
+    }
+    /**
+     * 图片上绘制文字
+     */
+    public static Bitmap createWaterMaskTextToBitmap(Context context, Bitmap src, String text,
+                                                     int textSize, Paint paint, int paddingLeft,
+                                                     int paddingTop, float degrees, boolean isFront,
+                                                     JSONObject waterData) {
+        if (src == null) {
+            return null;
+        }
+        String cardNo = "";
+        String certNo = "";
+        String time = "";
+        String item = "";
+        if (waterData != null) {
+//            cardNo = H5Utils.getString(waterData, "cardNo");
+//            if (TextUtils.isEmpty(cardNo)) {
+//                cardNo = text;
+//            }
+//            certNo = H5Utils.getString(waterData, "certNo");
+//            if (TextUtils.isEmpty(certNo)) {
+//                certNo = H5Utils.getString(waterData, "cardNumber");
+//            }
+//            time = H5Utils.getString(waterData, "time");
+//            item = H5Utils.getString(waterData, "item");
+
+            // 如果是身份证的国徽面, 则 item += 1
+            if (!isFront) {
+                int front = 2;
+                try {
+                    front = Integer.parseInt(item);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                item = "0" + (front + 1);
+            }
+        }
+        int width = src.getWidth();
+        int height = src.getHeight();
+
+        float X = (float) ((float) width / 320.0);
+        float Y = (float) ((float) height / 480.0);
+        if (width > height) {
+            X = (float) ((float) width / 480.0);
+            Y = (float) ((float) height / 320.0);
+        }
+        // 创建一个bitmap
+        Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);// 创建一个新的和SRC长度宽度一样的位图
+        try {
+            paddingLeft = (int) (paddingLeft * X);
+            paint.setTextSize(textSize * X);
+            paint.setShadowLayer(2 * X, 2 * X, 2 * X, Color.GRAY);
+            // 将该图片作为画布
+            Canvas canvas = new Canvas(newb);
+            // 在画布 0，0坐标上开始绘制原始图片
+            canvas.drawBitmap(src, 0, 0, null);
+            // 开始添加水印
+            canvas.rotate(degrees, paddingLeft, paddingTop);
+            Bitmap waterbg = BitmapFactory.decodeResource(context.getResources(), R.drawable.watermark);
+            waterbg = Bitmap.createScaledBitmap(waterbg, width, (int) (130 * Y), true);
+            canvas.drawBitmap(waterbg, 0, height - 110 * Y, paint);
+            if (waterData != null) {
+                if (!TextUtils.isEmpty(item)) {
+                    canvas.drawText("图片类型  " + item, paddingLeft, height - 5 * Y, paint);
+                }
+                if (!TextUtils.isEmpty(time)) {
+                    canvas.drawText("激活时间  " + time, paddingLeft, height - 25 * Y, paint);
+                }
+                boolean isCertNo = false;
+                if (!TextUtils.isEmpty(certNo)) {
+                    isCertNo = true;
+                    canvas.drawText("身份证号  " + certNo, paddingLeft, height - 45 * Y, paint);
+                } else if (!TextUtils.isEmpty(cardNo)) {
+                    canvas.drawText("银行卡号  " + cardNo, paddingLeft, height - 45 * Y, paint);
+                }
+                if (!TextUtils.isEmpty(cardNo) && isCertNo) {
+                    canvas.drawText("银行卡号  " + cardNo, paddingLeft, height - 65 * Y, paint);
+                }
+            } else {
+                canvas.drawText(text, paddingLeft, paddingTop, paint);
+            }
+            canvas.rotate(-degrees, paddingLeft, paddingTop);
+            canvas.save(Canvas.ALL_SAVE_FLAG);
+            canvas.restore();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return newb;
+    }
+
+    /**
+     * 获取图片大小
+     */
+    public static float getSizeOfBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        long length = baos.toByteArray().length / 1024;
+        return length;
+    }
+
+    private static InputStream Bitmap2IS(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream stream = null;
+        try {
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            stream = new ByteArrayInputStream(baos.toByteArray());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return stream;
+    }
+
+    /**
+     * 图片转换成base64字符串
+     */
+    public static String bitmap2String(Bitmap bitmap, int maxSize) {
+        if (bitmap == null) {
+            return "";
+        }
+
+        String str = "";
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+            int options = 100;
+            while (baos.toByteArray().length / 1024 > maxSize) { // 循环判断如果压缩后图片是否大于maxSize kb,大于继续压缩
+                baos.reset();// 重置baos即清空baos
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+                options -= 10;// 每次都减少10
+            }
+            byte[] bytes = baos.toByteArray();
+            str = Base64Self.encode(bytes);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+            closeQuietly(baos);
+        }
+        return str;
     }
 }
 

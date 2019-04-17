@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -48,7 +49,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     ToastUtil toastUtil = new ToastUtil(this);
     private MapView map;
     private MapView map1;
-    private Button mBtnDw;
+    private AppCompatImageView mBtnDw;
 
     private double mCurrentLat;
     private double mCurrentLon;
@@ -67,9 +68,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
 //        webSettings.setDomStorageEnabled(true);
 //        web.loadUrl("http://test.h5.xianxiangle.com/#/purchase");
         initMap();
-        bitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.map_red_pin);
-
+        bitmap = BitmapDescriptorFactory.fromResource(R.drawable.dingwei);
     }
 
     private void initMap() {
@@ -82,7 +81,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                 return true;
             }
         });
-        mBtnDw = (Button) findViewById(R.id.dw_bt);
+        mBtnDw = (AppCompatImageView) findViewById(R.id.dw_bt);
         mBaiduMap = map.getMap();
         //默认显示普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -206,6 +205,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.dw_bt:
                 mBaiduMap.setMyLocationEnabled(true);
+                mLocationClient.start();
                 mLocationClient.start();
                 mLocationClient.requestLocation();
                 break;

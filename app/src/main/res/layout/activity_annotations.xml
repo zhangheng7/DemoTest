@@ -8,11 +8,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <include layout="@layout/navtitle" />
+
     <TextView
         android:id="@+id/tv1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="20sp"
-        android:text="这行字是不同颜色的！" />
+        android:text="这行字是不同颜色的！"
+        android:textSize="20sp" />
 </LinearLayout>

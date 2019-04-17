@@ -10,6 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.administrator.demotest.activity.MapActivity">
 
+    <include layout="@layout/navtitle" />
+
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"

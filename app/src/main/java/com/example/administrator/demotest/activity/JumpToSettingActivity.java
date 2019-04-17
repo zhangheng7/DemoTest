@@ -109,33 +109,29 @@ public class JumpToSettingActivity extends BaseActivity implements View.OnClickL
         String description = "测试VIVOdescription";
         String eventLocation = "测试VIVOeventLocation";
         String email = "";
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime)
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
-                .putExtra(CalendarContract.Events.TITLE, title)
-                .putExtra(CalendarContract.Events.DESCRIPTION, description)
-                .putExtra(CalendarContract.Events.EVENT_LOCATION, eventLocation)
-                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                .putExtra(Intent.EXTRA_EMAIL, email);
-
-//        TimeZone timeZone = TimeZone.getDefault();
-//        ContentResolver cr = getContentResolver();
-//        ContentValues values = new ContentValues();
-//        values.put(CalendarContract.Events.DTSTART, beginTime);
-//        values.put(CalendarContract.Events.DTEND, endTime);
-//        values.put(CalendarContract.Events.TITLE, title);
-//        values.put(CalendarContract.Events.CALENDAR_ID, 1);
-//        values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-//            Uri uri = getApplicationContext().getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-//            toastUtil.showToast("事件添加成功");
-//        }
-        try {
+        if ("VIVO".equalsIgnoreCase(Build.MANUFACTURER) || "OPPO".equalsIgnoreCase(Build.MANUFACTURER)) {
+            TimeZone timeZone = TimeZone.getDefault();
+            final ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART, beginTime);
+            values.put(CalendarContract.Events.DTEND, endTime);
+            values.put(CalendarContract.Events.TITLE, title);
+            values.put(CalendarContract.Events.CALENDAR_ID, 1);
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            getApplicationContext().getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime)
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+                    .putExtra(CalendarContract.Events.TITLE, title)
+                    .putExtra(CalendarContract.Events.DESCRIPTION, description)
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, eventLocation)
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                    .putExtra(Intent.EXTRA_EMAIL, email);
             startActivityForResult(intent, CALENDAR_RESULT_CODE);
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage().toString());
-            e.printStackTrace();
         }
     }
 

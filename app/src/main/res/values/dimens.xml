@@ -26,6 +26,7 @@
     <dimen name="global_text_size_11">11sp</dimen>
     <dimen name="global_text_size_10">10sp</dimen>
     <dimen name="gf_keyboard_text_size">22sp</dimen>
+    <dimen name="nav_bar_padding">70dp</dimen>
 
     <dimen name="login">20dp</dimen>
     <dimen name="hit_text_size">20sp</dimen>

@@ -96,7 +96,7 @@ public class ConfirmDialog extends BaseDialog {
             return mConfirmDialog;
         }
 
-        public void initConfirmDialog(View view, final ConfirmDialog dialog) {
+        private void initConfirmDialog(View view, final ConfirmDialog dialog) {
             TextView message = view.findViewById(R.id.content);
             TextView title = view.findViewById(R.id.title);
             TextView btn_ok = view.findViewById(R.id.submit);
